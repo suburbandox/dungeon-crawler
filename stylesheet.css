@@ -1,0 +1,56 @@
+* {
+	font-family: 'courier';
+}
+#player {
+	position: absolute;
+	height: 50px;
+	width: 50px;
+	background-color: grey;
+}
+.dungeon {
+	max-width: 325px; 
+
+}
+.room {
+	height: 50px;
+	width: 50px;
+	border: 2px solid grey;
+	display: inline-block;
+	margin: 0;
+    box-sizing: border-box;
+}
+
+.player {
+	font-size: 30px;
+	text-align: center;
+	color: pink;
+}
+
+.roomRepeater {
+	display: inline-block;
+}
+
+#inventory {
+	margin: 0;
+}
+#inventory  li:hover{
+	background-color: royalblue;
+}
+
+.active {
+	background-color: grey;
+}
+
+.store {
+	float: right;
+	text-align: left;
+}
+.red{
+    height: 50px;
+	width: 50px;
+	border: 2px solid grey;
+	display: inline-block;
+
+    box-sizing: border-box;
+    background-color: red;
+}
