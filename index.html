@@ -9,55 +9,61 @@
 </head>
 
 <body>
-
-
     <div id="dungeon" class="dungeon">
         <div id="player" style="top: 8px; left: 8px;"></div>
         <div id="roomRepeater"></div>
-        
-        <div id="encounter"></div>
-        <div class="dungeon">
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-            <div class="room"></div>
-        </div>        
     </div>
-
-        <div class="red"></div>
-        <div class="red"></div>
-        <div class="red"></div>
-        <div class="status">
-            HP : <span id="hp"></span> <br>
-            Gold : <span id="gold"></span> <br>
-            Potions : <span id="potions"></span> <button onclick="drink()">drink</button> <br>
-            Attackpower : <span id="attackpower"></span> <br>
-            Defence : <span id="defense"></span> <br>
-            Inventory : <ul id="inventory"></ul>
+    <div>
+        <div id="encounter"></div>
+        <div id="monsterbox">
+            <button onclick="attack()">attack</button>
+            <button>run</button>
         </div>
-        <button onclick="hurt()">hit</button>
-        <script src="javascript.js"></script>
+        <div id="lootbox">
+            <button>loot</button>
+        </div>
+    </div>
+    
+    <div class="status">
+        HP : <span id="hp"></span> <br>
+        Gold : <span id="gold"></span> <br>
+        Potions : <span id="potions"></span>
+        <button onclick="drink()">drink</button> <br>
+        Attackpower : <span id="attackpower"></span> <br>
+        Defence : <span id="defense"></span> <br>
+        Inventory : <ul id="inventory"></ul>
+    </div>
+    <div class="dungeon">
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+        <div class="room"></div>
+    </div>
+    <div class="red"></div>
+    <div class="red"></div>
+    <div class="red"></div>
+    <button onclick="hurt()">hit</button>
+    <script src="javascript.js"></script>
 </body>
-
 </html>

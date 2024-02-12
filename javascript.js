@@ -8,6 +8,9 @@ const inventory = document.getElementById("inventory");
 const dungeon = document.getElementById("dungeon");
 const roomRepeater=document.getElementById("roomRepeater")
 const player1=document.getElementById("player")
+const lootbox=document.getElementById("lootbox")
+const monsterbox=document.getElementById("monsterbox")
+
 let encounter=document.getElementById("encounter")
 
 //#endregion
@@ -44,7 +47,6 @@ var monstersArray = [
 	// new Monster(),
 	// new Monster(),
 ]
-//console.log(monstersArray)
 
 var Room = function(active) {
     this.createMonster = function() {
@@ -186,45 +188,51 @@ if(monster===undefined){return "aqua"}
         return "royalblue"
   }
 }
-
+function setstats() {
+  gold.innerHTML = player.gold;
+  hp.innerHTML = player.hp;
+  attackpower.innerHTML = player.attackpower;
+  potions.innerHTML = player.potions;
+  defense.innerHTML = player.defense;
+}
+function setmonsterbox(){
+  lootbox.hidden = true
+  monsterbox.hidden = true
+}
 //#region states
-gold.innerHTML = player.gold;
-hp.innerHTML = player.hp;
-attackpower.innerHTML = player.attackpower;
-potions.innerHTML = player.potions;
-defense.innerHTML = player.defense;
-
-
+setstats()
+setmonsterbox()
 player.inventory.pop()
 additem("sand")
 additem("candy")
 listitem(player.inventory);
-//#endregion
+addgold(1000)
 genroom(rooms)
 document.addEventListener("keydown",input)
+//#endregion
 function encountering(monster){
     if(monster!=undefined){
-        encounter.innerHTML=monster.name
+        encounter.innerHTML=`you encounter a ${monster.name} it has ${monster.hp} health what will you do?`
+        monsterbox.hidden=false
+        
      }
     else{
         encounter.innerHTML=""
+        monsterbox.hidden=true
     }
 
 }
-function genroom(arr){
+function attack(monster){
+  monster.hp -= player.attackpower
+  encounter.innerHTML=`you encounter a ${monster.name} it has ${monster.hp} health what will you do?`
+}
+function genroom(arr){ 
     arr.forEach((roo) => {
         const room = document.createElement("div");
         room.style.backgroundColor=color(roo.monster)
         room.classList.add("room")
         roomRepeater.appendChild(room);
       });
-}
-function hurt() {
-  let newhp = hp.innerHTML;
-  newhp -= 1;
-  hp.innerHTML = newhp;
-  console.log(typeof newhp);
-  console.log(typeof hp.innerHTML);
 }
 function listitem(arr) {
   arr.forEach((item) => {
@@ -238,20 +246,24 @@ function listitem(arr) {
     inventory.appendChild(listItem);
   });
 }
-function additem(item){
-    player.inventory.push(item)
+function select(){
+  
+}
+function hurt() {
+  player.hp -=1
+  setstats()
 }
 function drink(){
     if(player.potions > 0){
-        let newhp = hp.innerHTML;
-        newhp -= -10;
-        hp.innerHTML = newhp;
-        let newpotions = potions.innerHTML;
-        newpotions -= 1;
-        potions.innerHTML = newpotions;
-        player.potions = newpotions
+      player.hp+=10
+      player.potions-=1
+      setstats()
     }
 }
-function select(){
-
+function addgold(gold) {
+  player.gold += gold
+  setstats()
+}
+function additem(item){
+    player.inventory.push(item)
 }
