@@ -11,6 +11,8 @@ const player1=document.getElementById("player")
 const lootbox=document.getElementById("lootbox")
 const monsterbox=document.getElementById("monsterbox")
 
+
+
 let encounter=document.getElementById("encounter")
 
 //#endregion
@@ -96,6 +98,17 @@ rooms = [
 	new Room(),
 	new Room(),
 ]
+function resetrooms(){
+     t = 8;
+     l = 8;
+     activeRoom = rooms[0];
+     activeIndex = 0;
+     activeMonster = [];
+     player1.style.left =l+"px";
+     player1.style.top =t+"px";
+     encounter.innerHTML=""
+}
+let currentmonster
 let t = 8
 let l= 8
 let activeRoom = rooms[0]
@@ -214,17 +227,28 @@ function encountering(monster){
     if(monster!=undefined){
         encounter.innerHTML=`you encounter a ${monster.name} it has ${monster.hp} health what will you do?`
         monsterbox.hidden=false
-        
+        currentmonster=monster
+        //console.log(currentmonster)
+        if(monster.hp <=0){
+            encounter.innerHTML="ded"
+        }
+
      }
     else{
         encounter.innerHTML=""
         monsterbox.hidden=true
     }
-
 }
-function attack(monster){
-  monster.hp -= player.attackpower
-  encounter.innerHTML=`you encounter a ${monster.name} it has ${monster.hp} health what will you do?`
+function attack(){
+    console.log(currentmonster)
+  currentmonster.hp -= player.attackpower
+  encounter.innerHTML=`you encounter a ${currentmonster.name} it has ${currentmonster.hp} health what will you do?`
+  if(currentmonster.hp <=0){
+    encounter.innerHTML="ded"
+}
+}
+function run(){
+    resetrooms()
 }
 function genroom(arr){ 
     arr.forEach((roo) => {
