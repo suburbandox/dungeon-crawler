@@ -11,8 +11,6 @@ const player1=document.getElementById("player")
 const lootbox=document.getElementById("lootbox")
 const monsterbox=document.getElementById("monsterbox")
 
-
-
 let encounter=document.getElementById("encounter")
 
 //#endregion
@@ -215,9 +213,6 @@ function setmonsterbox(){
 //#region states
 setstats()
 setmonsterbox()
-player.inventory.pop()
-additem("sand")
-additem("candy")
 listitem(player.inventory);
 addgold(1000)
 genroom(rooms)
