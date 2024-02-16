@@ -38,7 +38,7 @@ var monstersArray = [
 	new Monster('Basilisk', 24, ['diary'], 5, 4),
 	new Monster('GIANT!', 50, ['clubbing pants'], 0, 10),
 	new Monster('Hydra', 20, ['one of three heads'], 25, 8),
-	new Monster('BOSS MONSTER', 100, ['game winning item'], 1000000, 22),
+	new Monster('BOSS MONSTER', 100, ['game winning item'], 1000000, 10),
 	new Monster('Troll', 30, ['booger wand'], 30, 9),
 	new Monster('Orc', 15, ['ugly mask'], 75, 9),
 	new Monster('Pokemon', 1, ['tall grass'], 15, 0),
@@ -370,7 +370,7 @@ function gameWinChecker(){
   for(var i = 0;i<player.inventory.length;i++){
     console.log(player.inventory[i])
     if(player.inventory[i]=="game winning item"){
-      alert("you win")
+      console.log("you win")
     }
   }
   othergameWinChecker()
@@ -381,6 +381,8 @@ function othergameWinChecker(){
   console.log(neededitems.sort())
   if(player.inventory.sort().toString() == neededitems.sort().toString()){
     console.log("i won")
+    alert("i won")
+    location.reload();
   }
 }
 function playerdeath(){
