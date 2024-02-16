@@ -11,8 +11,10 @@ const player1=document.getElementById("player")
 const lootbox=document.getElementById("lootbox")
 const monsterbox=document.getElementById("monsterbox")
 
+const i =  document.addEventListener("keydown",input)
 let encounter=document.getElementById("encounter")
-
+let generatedmonsterarray =[]
+let neededitems=[]
 //#endregion
 let player = {
   gold: 1000,
@@ -20,7 +22,7 @@ let player = {
   attackpower: 10,
   potions: 4,
   defense: 0,
-  inventory: ["sword", "wool hat", "grappling hook"],
+  inventory: [],
 };
 let Monster = function(name, hp, items, gold, attackpower) {
     this.name  = name;
@@ -51,11 +53,12 @@ var monstersArray = [
 var Room = function(active) {
     this.createMonster = function() {
         var randomNumber = Math.floor(Math.random() * 16)
-        console.log(randomNumber)
+        //console.log(randomNumber)
         var selectedMonster = []
         selectedMonster.push(monstersArray[randomNumber])
+        generatedmonsterarray.push(selectedMonster[0])
         monstersArray.splice(randomNumber, 1)
-        console.log(selectedMonster[0])
+        //console.log(selectedMonster[0])
         return selectedMonster[0]
     }
     //console.log(this.createMonster)
@@ -107,6 +110,7 @@ function resetrooms(){
      encounter.innerHTML=""
 }
 let currentmonster
+
 let t = 8
 let l= 8
 let activeRoom = rooms[0]
@@ -154,7 +158,7 @@ function input(e){
             activeMonster.push(activeRoom.monster)
         }
     }
-    console.log(activeMonster[0])
+    //console.log(activeMonster[0])
     let a = JSON.stringify(activeMonster[0])
     console.log(a)
     encountering(activeMonster[0])
@@ -199,6 +203,13 @@ if(monster===undefined){return "aqua"}
         return "royalblue"
   }
 }
+function init() {
+  setstats()
+  setboxhidden(true, true)
+  addgold(1000)
+  genroom(rooms)
+  listitem(player.inventory);
+}
 function setstats() {
   gold.innerHTML = player.gold;
   hp.innerHTML = player.hp;
@@ -206,41 +217,75 @@ function setstats() {
   potions.innerHTML = player.potions;
   defense.innerHTML = player.defense;
 }
-function setmonsterbox(){
-  lootbox.hidden = true
-  monsterbox.hidden = true
+function setboxhidden(monster,loot){
+  lootbox.hidden = loot
+  monsterbox.hidden = monster
 }
 //#region states
-setstats()
-setmonsterbox()
-listitem(player.inventory);
-addgold(1000)
-genroom(rooms)
-document.addEventListener("keydown",input)
+
+init()
+
+console.log(generatedmonsterarray)
+allcurrentmonsters()
 //#endregion
+function allcurrentmonsters(){
+  generatedmonsterarray.forEach(monster => {
+    if(monster != undefined){
+      //console.log(monster.items)
+      neededitems.push(monster.items[0])
+    }
+  });
+  console.log(neededitems)
+  console.log(neededitems)
+}
+function monsterattack(){
+  let attack= currentmonster.attackpower - player.defense
+  if(attack>0){
+    player.hp -= attack
+  }
+  playerdeath()
+  setstats()
+}
+function loot(){
+  additem(currentmonster.items)
+  currentmonster.items=[]
+  player.gold+=currentmonster.gold
+  currentmonster.gold=0
+  setstats()
+  gameWinChecker()
+}
+function deadmonster(){
+  encounter.innerHTML="the monster is dead"
+  setboxhidden(true,false)
+}
+function encountertext(){
+  encounter.innerHTML=`you encounter a ${currentmonster.name} it has ${currentmonster.hp} health what will you do?`
+}
 function encountering(monster){
     if(monster!=undefined){
-        encounter.innerHTML=`you encounter a ${monster.name} it has ${monster.hp} health what will you do?`
-        monsterbox.hidden=false
+        setboxhidden(false,true)
         currentmonster=monster
-        //console.log(currentmonster)
+        encountertext()
         if(monster.hp <=0){
-            encounter.innerHTML="ded"
+            deadmonster()
         }
-
      }
     else{
         encounter.innerHTML=""
-        monsterbox.hidden=true
+        setboxhidden(true,true)
     }
 }
-function attack(){
-    console.log(currentmonster)
+function attack() {
   currentmonster.hp -= player.attackpower
-  encounter.innerHTML=`you encounter a ${currentmonster.name} it has ${currentmonster.hp} health what will you do?`
-  if(currentmonster.hp <=0){
-    encounter.innerHTML="ded"
-}
+  encountertext()
+  console.log(currentmonster.hp)
+  if (currentmonster.hp <= 0) {
+    deadmonster()
+  }
+  else{
+    monsterattack()
+  }
+  
 }
 function run(){
     resetrooms()
@@ -253,24 +298,13 @@ function genroom(arr){
         roomRepeater.appendChild(room);
       });
 }
-function listitem(arr) {
-  arr.forEach((item) => {
-    const listItem = document.createElement("li");
-    listItem.classList.add("item")
-    listItem.textContent = item;
-    listItem.addEventListener("click", function() {
-        console.log("You clicked on: " + item);
-        
-      });
-    inventory.appendChild(listItem);
-  });
-}
 function select(){
   
 }
 function hurt() {
   player.hp -=1
-  setstats()
+  additem("rock")
+  console.log(player.inventory)
 }
 function drink(){
     if(player.potions > 0){
@@ -284,5 +318,73 @@ function addgold(gold) {
   setstats()
 }
 function additem(item){
+  if(Array.isArray(item)){
+    player.inventory.push(...item)
+  }else{
     player.inventory.push(item)
+  }
+    listitem()
+}
+function listitem() {
+  inventory.innerHTML=""
+  player.inventory.forEach((item) => {
+    const listItem = document.createElement("li");
+    listItem.classList.add("item")
+    listItem.textContent = item;
+    listItem.addEventListener("click", function() {
+        console.log("You clicked on: " + item); 
+      });
+    inventory.appendChild(listItem);
+  });
+}
+function buyPotion(){
+  console.log(888)
+  if(player.gold >= 2){
+    player.potions+=1
+    player.gold-=2
+  }
+  setstats()
+}
+function buyBlessing(){
+  if(player.gold >= 5){
+    player.attackpower+=2
+    player.gold-=5
+  }
+  setstats()
+}
+function buyTrinket(){
+  if(player.gold >= 100){
+    additem("useless trinket")
+    player.gold-=100
+  }
+  setstats()
+}
+function buyIronHelmet(){
+  if(player.gold >= 9){
+    player.defense+=2
+    player.gold-=9
+  }
+  setstats()
+}
+function gameWinChecker(){
+  for(var i = 0;i<player.inventory.length;i++){
+    console.log(player.inventory[i])
+    if(player.inventory[i]=="game winning item"){
+      alert("you win")
+    }
+  }
+  othergameWinChecker()
+}
+function othergameWinChecker(){
+  console.log(333333)
+  console.log(player.inventory.sort())
+  console.log(neededitems.sort())
+  if(player.inventory.sort().toString() == neededitems.sort().toString()){
+    console.log("i won")
+  }
+}
+function playerdeath(){
+  if(player.hp<=0){
+    alert("YOU ARE DEAD'")
+  }
 }

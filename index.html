@@ -6,9 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="stylesheet.css">
-</head>
+    <link rel="icon" type="image/x-icon" href="http://placekitten.com/200/300"></head>
 
-<body>
+<body>    
+    <div class = "store">
+        <strong>Store:</strong>	
+            <ul>
+            <li>potion <button onclick = "buyPotion()">2 </button></li>
+            <li>blessing of +2 attackpower <button onclick = "buyBlessing()">5 </button></li>
+            <li>useless trinket <button onclick = "buyTrinket()">100</button></li>
+            <li>IronHelmet of +2 defense <button onclick = "buyIronHelmet()">9</i></button></li>
+            </ul>      
+        </div>
     <div id="dungeon" class="dungeon">
         <div id="player" style="top: 8px; left: 8px;"></div>
         <div id="roomRepeater"></div>
@@ -20,9 +29,10 @@
             <button onclick="run()">run</button>
         </div>
         <div id="lootbox">
-            <button id="lootbutton">loot</button>
+            <button onclick="loot()">loot</button>
         </div>
     </div>
+
     
     <div class="status">
         HP : <span id="hp"></span> <br>
