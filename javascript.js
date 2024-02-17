@@ -388,5 +388,6 @@ function othergameWinChecker(){
 function playerdeath(){
   if(player.hp<=0){
     alert("YOU ARE DEAD'")
+    location.reload();
   }
 }
